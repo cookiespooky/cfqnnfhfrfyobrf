@@ -1,20 +1,101 @@
-<article class="content">
-  {{ .Body }}
-</article>
-
+{{- $brandName := index .Settings "brand_name" -}}
+{{- $brandLogo := index .Settings "brand_logo" -}}
+{{- $homeLabel := index .Settings "ui_home" -}}
+{{- $pages := .Collections.nav_pages.Items -}}
 {{- $hubs := .Collections.nav_hubs.Items -}}
-{{- if $hubs }}
-<section class="section">
-  <h2 class="section-title">{{ index .Settings "ui_home_hubs_title" }}</h2>
-  <div class="grid grid-3">
-    {{- range $hubs }}
-    <a class="card card-link" href="{{ printf "%s%s" $.BaseURL .Path }}">
-      <h3>{{ .Title }}</h3>
-      {{- if .Description }}
-      <p>{{ .Description }}</p>
+
+<div class="home-shell">
+  <section class="home-panel home-hero-panel">
+    <div class="home-panel-top">
+      <div class="home-panel-id">
+        <span class="home-mini-label">{{ $brandName }}</span>
+        <a class="home-mini-chip" href="{{ printf "%s/" .BaseURL }}">{{ $homeLabel }}</a>
+        <a class="home-mini-chip" href="{{ printf "%ssearch/" .BaseURL }}">{{ index .Settings "ui_search" }}</a>
+      </div>
+      <div class="home-panel-links">
+        <a href="{{ printf "%sstart/" .BaseURL }}">Start</a>
+        <a href="{{ printf "%sexample-post/" .BaseURL }}">Fields</a>
+        <a href="{{ printf "%sdev/" .BaseURL }}">Dev</a>
+      </div>
+    </div>
+
+    <div class="home-hero">
+      <div class="home-avatar">
+        {{- if $brandLogo }}
+        <img src="{{ $brandLogo }}" alt="{{ $brandName }}" />
+        {{- else }}
+        <span>{{ printf "%.1s" $brandName }}</span>
+        {{- end }}
+      </div>
+      <span class="home-status-pill">{{ $brandName }} powered by NotePub</span>
+
+      <h1 class="home-title">{{ .Title }}</h1>
+      {{- if .Page.Description }}
+      <p class="home-lead">{{ .Page.Description }}</p>
       {{- end }}
-    </a>
-    {{- end }}
-  </div>
-</section>
-{{- end }}
+
+      <div class="home-actions">
+        <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Open Start Guide</a>
+        <a class="btn home-cta-secondary" href="{{ printf "%show-it-works/" .BaseURL }}">How It Works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-panel home-marquee-panel" aria-label="Platform highlights">
+    <div class="home-marquee">
+      <span>Obsidian</span>
+      <span>GitHub Pages</span>
+      <span>Markdown</span>
+      <span>Wiki Links</span>
+      <span>SEO Ready</span>
+      <span>AI Search</span>
+    </div>
+  </section>
+
+  <section class="home-panel home-services-panel">
+    <div class="home-section-head">
+      <h2>Collaborate with notes, structure, and publishing flow to ship a clean documentation site.</h2>
+      <span class="home-mini-chip">Sections</span>
+    </div>
+
+    <div class="home-service-grid">
+      {{- range $pages }}
+        {{- if and (ne .Slug "footer") (ne .Slug "search") }}
+      <a class="home-service-card" href="{{ printf "%s%s" $.BaseURL .Path }}">
+        <span class="home-service-icon">+</span>
+        <h3>{{ .Title }}</h3>
+        {{- if .Description }}
+        <p>{{ .Description }}</p>
+        {{- end }}
+      </a>
+        {{- end }}
+      {{- end }}
+
+      {{- range $hubs }}
+      <a class="home-service-card" href="{{ printf "%s%s" $.BaseURL .Path }}">
+        <span class="home-service-icon">#</span>
+        <h3>{{ .Title }}</h3>
+        {{- if .Description }}
+        <p>{{ .Description }}</p>
+        {{- end }}
+      </a>
+      {{- end }}
+    </div>
+  </section>
+
+  <section class="home-panel home-content-panel">
+    <div class="home-content-prose content">
+      {{ .Body }}
+    </div>
+  </section>
+
+  <section class="home-panel home-cta-panel" id="support-cta">
+    <div class="home-cta-mark" aria-hidden="true">↗</div>
+    <h2 class="home-cta-title">Tell the site what to publish next.</h2>
+    <p class="home-cta-copy">Start with the onboarding page, then shape the information model and developer section without touching the engine core.</p>
+    <div class="home-actions">
+      <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Read Start</a>
+      <a class="btn home-cta-secondary" href="{{ printf "%sdev/" .BaseURL }}">Open Dev Hub</a>
+    </div>
+  </section>
+</div>
