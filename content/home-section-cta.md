@@ -6,7 +6,7 @@ title: Расскажите сайту, что публиковать дальш
 description: Начните с быстрого старта, затем заполните материалы, свойства страниц и технический раздел для разработчиков.
 label: ↗
 cta_label: Открыть старт
-cta_url: /start/
+cta_url: start/
 secondary_cta_label: Открыть dev-раздел
-secondary_cta_url: /dev/
+secondary_cta_url: dev/
 ---

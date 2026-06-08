@@ -5,5 +5,5 @@ title: Свойства страницы
 description: Frontmatter управляет адресом, заголовком, связями и местом заметки в структуре сайта.
 label: 02
 order: 20
-url: /example-post/
+url: example-post/
 ---
