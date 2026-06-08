@@ -833,6 +833,13 @@ body.is-home [data-search-trigger] {
 .home-hero-panel {
   padding-top: calc(var(--header-height) + 26px);
   min-height: 520px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-hero-panel::before {
+  display: none;
 }
 
 .home-hero,
