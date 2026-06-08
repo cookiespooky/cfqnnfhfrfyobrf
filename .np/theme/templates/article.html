@@ -1,20 +1,38 @@
 {{- $related := .Collections.related_pages.Items -}}
-<article class="content">
-  {{ .Body }}
-</article>
-
-{{- if $related }}
-<section class="section">
-  <h2 class="section-title">{{ index .Settings "ui_related_materials_title" }}</h2>
-  <div class="grid grid-3">
-    {{- range $related }}
-    <a class="card card-link" href="{{ printf "%s%s" $.BaseURL .Path }}">
-      <h3>{{ .Title }}</h3>
-      {{- if .Description }}
-      <p>{{ .Description }}</p>
+{{- $hubs := .Collections.nav_hubs.Items -}}
+<div class="page-shell">
+  <section class="home-panel page-panel">
+    {{- with (index .FM "hub") }}
+      {{- if gt (len .) 0 }}
+    <div class="hub-cloud">
+      {{- range $slug := . }}
+        {{- range $hubs }}
+          {{- if eq $slug .Slug }}
+      <a class="hub-pill" href="{{ printf "%s%s" $.BaseURL .Path }}">{{ .Title }}</a>
+          {{- end }}
+        {{- end }}
       {{- end }}
-    </a>
+    </div>
+      {{- end }}
     {{- end }}
-  </div>
-</section>
-{{- end }}
+    <article class="content">
+      {{ .Body }}
+    </article>
+  </section>
+
+  {{- if $related }}
+  <section class="home-panel page-grid-panel">
+    <h2 class="section-title">{{ index .Settings "ui_related_materials_title" }}</h2>
+    <div class="grid grid-3">
+      {{- range $related }}
+      <a class="card card-link" href="{{ printf "%s%s" $.BaseURL .Path }}">
+        <h3>{{ .Title }}</h3>
+        {{- if .Description }}
+        <p>{{ .Description }}</p>
+        {{- end }}
+      </a>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+</div>

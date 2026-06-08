@@ -1,3 +1,21 @@
-<article class="content">
-  {{ .Body }}
-</article>
+{{- $hubs := .Collections.nav_hubs.Items -}}
+<div class="page-shell">
+  <section class="home-panel page-panel">
+    {{- with (index .FM "hub") }}
+      {{- if gt (len .) 0 }}
+    <div class="hub-cloud">
+      {{- range $slug := . }}
+        {{- range $hubs }}
+          {{- if eq $slug .Slug }}
+      <a class="hub-pill" href="{{ printf "%s%s" $.BaseURL .Path }}">{{ .Title }}</a>
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    </div>
+      {{- end }}
+    {{- end }}
+    <article class="content">
+      {{ .Body }}
+    </article>
+  </section>
+</div>
