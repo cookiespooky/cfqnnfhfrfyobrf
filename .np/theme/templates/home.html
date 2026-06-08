@@ -2,7 +2,11 @@
 {{- $brandLogo := index .Settings "brand_logo" -}}
 {{- $homeLabel := index .Settings "ui_home" -}}
 {{- $pages := .Collections.nav_pages.Items -}}
-{{- $hubs := .Collections.nav_hubs.Items -}}
+{{- $heroItems := .Collections.home_hero.Items -}}
+{{- $logoItems := .Collections.home_logos.Items -}}
+{{- $servicesIntroItems := .Collections.home_services_intro.Items -}}
+{{- $serviceItems := .Collections.home_services.Items -}}
+{{- $ctaItems := .Collections.home_cta.Items -}}
 
 <div class="home-shell">
   <section class="home-panel home-hero-panel">
@@ -13,9 +17,18 @@
         <a class="home-mini-chip" href="{{ printf "%ssearch/" .BaseURL }}">{{ index .Settings "ui_search" }}</a>
       </div>
       <div class="home-panel-links">
-        <a href="{{ printf "%sstart/" .BaseURL }}">Start</a>
-        <a href="{{ printf "%sexample-post/" .BaseURL }}">Fields</a>
-        <a href="{{ printf "%sdev/" .BaseURL }}">Dev</a>
+        {{- if gt (len $pages) 0 }}
+        {{- $linkPage := index $pages 0 -}}
+        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
+        {{- end }}
+        {{- if gt (len $pages) 1 }}
+        {{- $linkPage := index $pages 1 -}}
+        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
+        {{- end }}
+        {{- if gt (len $pages) 2 }}
+        {{- $linkPage := index $pages 2 -}}
+        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
+        {{- end }}
       </div>
     </div>
 
@@ -27,6 +40,20 @@
         <span>{{ printf "%.1s" $brandName }}</span>
         {{- end }}
       </div>
+      {{- if gt (len $heroItems) 0 }}
+      {{- $hero := index $heroItems 0 -}}
+      <span class="home-status-pill">{{ with (index $hero.FM "status") }}{{ . }}{{ else }}{{ $brandName }} powered by NotePub{{ end }}</span>
+
+      <h1 class="home-title">{{ $hero.Title }}</h1>
+      {{- if $hero.Description }}
+      <p class="home-lead">{{ $hero.Description }}</p>
+      {{- end }}
+
+      <div class="home-actions">
+        <a class="btn primary home-cta-primary" href="{{ with (index $hero.FM "cta_url") }}{{ . }}{{ else }}{{ printf "%sstart/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "cta_label") }}{{ . }}{{ else }}{{ index $.Settings "ui_home" }}{{ end }}</a>
+        <a class="btn home-cta-secondary" href="{{ with (index $hero.FM "secondary_cta_url") }}{{ . }}{{ else }}{{ printf "%show-it-works/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "secondary_cta_label") }}{{ . }}{{ else }}How It Works{{ end }}</a>
+      </div>
+      {{- else }}
       <span class="home-status-pill">{{ $brandName }} powered by NotePub</span>
 
       <h1 class="home-title">{{ .Title }}</h1>
@@ -38,42 +65,39 @@
         <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Open Start Guide</a>
         <a class="btn home-cta-secondary" href="{{ printf "%show-it-works/" .BaseURL }}">How It Works</a>
       </div>
+      {{- end }}
     </div>
   </section>
 
   <section class="home-panel home-marquee-panel" aria-label="Platform highlights">
     <div class="home-marquee">
-      <span>Obsidian</span>
-      <span>GitHub Pages</span>
-      <span>Markdown</span>
-      <span>Wiki Links</span>
-      <span>SEO Ready</span>
-      <span>AI Search</span>
+      {{- range $logoItems }}
+      {{- $logo := . -}}
+      {{- with (index $logo.FM "url") }}
+      <a class="home-marquee-item" href="{{ . }}">{{ $logo.Title }}</a>
+      {{- else }}
+      <span class="home-marquee-item">{{ $logo.Title }}</span>
+      {{- end }}
+      {{- end }}
     </div>
   </section>
 
   <section class="home-panel home-services-panel">
+    {{- if gt (len $servicesIntroItems) 0 }}
+    {{- $servicesIntro := index $servicesIntroItems 0 -}}
     <div class="home-section-head">
-      <h2>Collaborate with notes, structure, and publishing flow to ship a clean documentation site.</h2>
-      <span class="home-mini-chip">Sections</span>
+      <h2>{{ $servicesIntro.Title }}</h2>
+      {{- if $servicesIntro.Description }}
+      <p class="home-section-copy">{{ $servicesIntro.Description }}</p>
+      {{- end }}
+      <span class="home-mini-chip">{{ with (index $servicesIntro.FM "label") }}{{ . }}{{ else }}Sections{{ end }}</span>
     </div>
+    {{- end }}
 
     <div class="home-service-grid">
-      {{- range $pages }}
-        {{- if and (ne .Slug "footer") (ne .Slug "search") }}
-      <a class="home-service-card" href="{{ printf "%s%s" $.BaseURL .Path }}">
-        <span class="home-service-icon">+</span>
-        <h3>{{ .Title }}</h3>
-        {{- if .Description }}
-        <p>{{ .Description }}</p>
-        {{- end }}
-      </a>
-        {{- end }}
-      {{- end }}
-
-      {{- range $hubs }}
-      <a class="home-service-card" href="{{ printf "%s%s" $.BaseURL .Path }}">
-        <span class="home-service-icon">#</span>
+      {{- range $serviceItems }}
+      <a class="home-service-card" href="{{ with (index .FM "url") }}{{ . }}{{ else }}{{ printf "%s/" $.BaseURL }}{{ end }}">
+        <span class="home-service-icon">{{ with (index .FM "label") }}{{ . }}{{ else }}+{{ end }}</span>
         <h3>{{ .Title }}</h3>
         {{- if .Description }}
         <p>{{ .Description }}</p>
@@ -90,6 +114,18 @@
   </section>
 
   <section class="home-panel home-cta-panel" id="support-cta">
+    {{- if gt (len $ctaItems) 0 }}
+    {{- $cta := index $ctaItems 0 -}}
+    <div class="home-cta-mark" aria-hidden="true">{{ with (index $cta.FM "label") }}{{ . }}{{ else }}↗{{ end }}</div>
+    <h2 class="home-cta-title">{{ $cta.Title }}</h2>
+    {{- if $cta.Description }}
+    <p class="home-cta-copy">{{ $cta.Description }}</p>
+    {{- end }}
+    <div class="home-actions">
+      <a class="btn primary home-cta-primary" href="{{ with (index $cta.FM "cta_url") }}{{ . }}{{ else }}{{ printf "%sstart/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "cta_label") }}{{ . }}{{ else }}Read Start{{ end }}</a>
+      <a class="btn home-cta-secondary" href="{{ with (index $cta.FM "secondary_cta_url") }}{{ . }}{{ else }}{{ printf "%sdev/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "secondary_cta_label") }}{{ . }}{{ else }}Open Dev Hub{{ end }}</a>
+    </div>
+    {{- else }}
     <div class="home-cta-mark" aria-hidden="true">↗</div>
     <h2 class="home-cta-title">Tell the site what to publish next.</h2>
     <p class="home-cta-copy">Start with the onboarding page, then shape the information model and developer section without touching the engine core.</p>
@@ -97,5 +133,6 @@
       <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Read Start</a>
       <a class="btn home-cta-secondary" href="{{ printf "%sdev/" .BaseURL }}">Open Dev Hub</a>
     </div>
+    {{- end }}
   </section>
 </div>

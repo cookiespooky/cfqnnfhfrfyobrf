@@ -2,7 +2,7 @@ version: 1
 
 fields:
   required: ["type", "slug", "title"]
-  optional: ["description", "draft", "hub", "related", "order", "noindex", "jsonld", "tags"]
+  optional: ["description", "draft", "hub", "related", "order", "noindex", "jsonld", "tags", "image", "url", "label", "eyebrow", "status", "section_key", "cta_label", "cta_url", "secondary_cta_label", "secondary_cta_url"]
   defaults:
     draft: false
 
@@ -13,6 +13,16 @@ fm_schema:
   order: number
   draft: boolean
   noindex: boolean
+  image: string
+  url: string
+  label: string
+  eyebrow: string
+  status: string
+  section_key: string
+  cta_label: string
+  cta_url: string
+  secondary_cta_label: string
+  secondary_cta_url: string
 
 types:
   home:
@@ -57,6 +67,27 @@ types:
       sitemap: false
       search: false
 
+  home_section:
+    template: "page.html"
+    permalink: "/_home/{{ slug }}/"
+    include_in:
+      sitemap: false
+      search: false
+
+  home_logo:
+    template: "page.html"
+    permalink: "/_home/{{ slug }}/"
+    include_in:
+      sitemap: false
+      search: false
+
+  home_service:
+    template: "page.html"
+    permalink: "/_home/{{ slug }}/"
+    include_in:
+      sitemap: false
+      search: false
+
 links:
   - name: "belongs_to"
     kind: "field"
@@ -87,7 +118,7 @@ links:
 
   - name: "wiki"
     kind: "wikilinks"
-    from_types: ["home", "page", "article", "hub", "footer"]
+    from_types: ["home", "page", "article", "hub", "footer", "home_section", "home_logo", "home_service"]
     resolve_by: "wikimap"
     to_types: ["home", "page", "article", "hub", "footer"]
     resolve:
@@ -105,6 +136,62 @@ collections:
         - fm_eq: { key: "draft", value: false }
         - type_in: ["home"]
     limit: 1
+
+  home_hero:
+    kind: "filter"
+    materialize: false
+    where:
+      all:
+        - fm_eq: { key: "draft", value: false }
+        - type_in: ["home_section"]
+        - fm_eq: { key: "section_key", value: "hero" }
+    limit: 1
+
+  home_services_intro:
+    kind: "filter"
+    materialize: false
+    where:
+      all:
+        - fm_eq: { key: "draft", value: false }
+        - type_in: ["home_section"]
+        - fm_eq: { key: "section_key", value: "services" }
+    limit: 1
+
+  home_cta:
+    kind: "filter"
+    materialize: false
+    where:
+      all:
+        - fm_eq: { key: "draft", value: false }
+        - type_in: ["home_section"]
+        - fm_eq: { key: "section_key", value: "cta" }
+    limit: 1
+
+  home_logos:
+    kind: "filter"
+    materialize: false
+    where:
+      all:
+        - fm_eq: { key: "draft", value: false }
+        - type_in: ["home_logo"]
+    sort:
+      by: "fm.order"
+      dir: "asc"
+      nulls_last: true
+    limit: 20
+
+  home_services:
+    kind: "filter"
+    materialize: false
+    where:
+      all:
+        - fm_eq: { key: "draft", value: false }
+        - type_in: ["home_service"]
+    sort:
+      by: "fm.order"
+      dir: "asc"
+      nulls_last: true
+    limit: 20
 
   nav_pages:
     kind: "filter"

@@ -1010,6 +1010,24 @@ body.is-home [data-search-trigger] {
   text-transform: uppercase;
 }
 
+.home-marquee-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 78px;
+  padding: 0 16px;
+  color: rgba(20, 20, 20, 0.75);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+a.home-marquee-item:hover {
+  text-decoration: none;
+  color: var(--fg);
+}
+
 .home-services-panel {
   padding-top: 50px;
 }
@@ -1029,6 +1047,12 @@ body.is-home [data-search-trigger] {
   font-size: clamp(1.8rem, 3.3vw, 3rem);
   line-height: 1.08;
   letter-spacing: -0.05em;
+}
+
+.home-section-copy {
+  max-width: 720px;
+  margin: 0;
+  color: rgba(20, 20, 20, 0.66);
 }
 
 .home-service-grid {
