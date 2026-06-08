@@ -14,7 +14,7 @@
       <div class="home-panel-id">
         <span class="home-mini-label">{{ $brandName }}</span>
         <a class="home-mini-chip" href="{{ printf "%s/" .BaseURL }}">{{ $homeLabel }}</a>
-        <a class="home-mini-chip" href="{{ printf "%ssearch/" .BaseURL }}">{{ index .Settings "ui_search" }}</a>
+        <a class="home-mini-chip" href="{{ printf "%s/search/" .BaseURL }}">{{ index .Settings "ui_search" }}</a>
       </div>
       <div class="home-panel-links">
         {{- if gt (len $pages) 0 }}
@@ -50,8 +50,8 @@
       {{- end }}
 
       <div class="home-actions">
-        <a class="btn primary home-cta-primary" href="{{ with (index $hero.FM "cta_url") }}{{ . }}{{ else }}{{ printf "%sstart/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "cta_label") }}{{ . }}{{ else }}{{ index $.Settings "ui_home" }}{{ end }}</a>
-        <a class="btn home-cta-secondary" href="{{ with (index $hero.FM "secondary_cta_url") }}{{ . }}{{ else }}{{ printf "%show-it-works/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "secondary_cta_label") }}{{ . }}{{ else }}How It Works{{ end }}</a>
+        <a class="btn primary home-cta-primary" href="{{ with (index $hero.FM "cta_url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/start/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "cta_label") }}{{ . }}{{ else }}{{ index $.Settings "ui_home" }}{{ end }}</a>
+        <a class="btn home-cta-secondary" href="{{ with (index $hero.FM "secondary_cta_url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/how-it-works/" $.BaseURL }}{{ end }}">{{ with (index $hero.FM "secondary_cta_label") }}{{ . }}{{ else }}How It Works{{ end }}</a>
       </div>
       {{- else }}
       <span class="home-status-pill">{{ $brandName }} powered by NotePub</span>
@@ -62,8 +62,8 @@
       {{- end }}
 
       <div class="home-actions">
-        <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Open Start Guide</a>
-        <a class="btn home-cta-secondary" href="{{ printf "%show-it-works/" .BaseURL }}">How It Works</a>
+        <a class="btn primary home-cta-primary" href="{{ printf "%s/start/" .BaseURL }}">Open Start Guide</a>
+        <a class="btn home-cta-secondary" href="{{ printf "%s/how-it-works/" .BaseURL }}">How It Works</a>
       </div>
       {{- end }}
     </div>
@@ -96,7 +96,7 @@
 
     <div class="home-service-grid">
       {{- range $serviceItems }}
-      <a class="home-service-card" href="{{ with (index .FM "url") }}{{ . }}{{ else }}{{ printf "%s/" $.BaseURL }}{{ end }}">
+      <a class="home-service-card" href="{{ with (index .FM "url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/" $.BaseURL }}{{ end }}">
         <span class="home-service-icon">{{ with (index .FM "label") }}{{ . }}{{ else }}+{{ end }}</span>
         <h3>{{ .Title }}</h3>
         {{- if .Description }}
@@ -122,16 +122,16 @@
     <p class="home-cta-copy">{{ $cta.Description }}</p>
     {{- end }}
     <div class="home-actions">
-      <a class="btn primary home-cta-primary" href="{{ with (index $cta.FM "cta_url") }}{{ . }}{{ else }}{{ printf "%sstart/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "cta_label") }}{{ . }}{{ else }}Read Start{{ end }}</a>
-      <a class="btn home-cta-secondary" href="{{ with (index $cta.FM "secondary_cta_url") }}{{ . }}{{ else }}{{ printf "%sdev/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "secondary_cta_label") }}{{ . }}{{ else }}Open Dev Hub{{ end }}</a>
+      <a class="btn primary home-cta-primary" href="{{ with (index $cta.FM "cta_url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/start/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "cta_label") }}{{ . }}{{ else }}Read Start{{ end }}</a>
+      <a class="btn home-cta-secondary" href="{{ with (index $cta.FM "secondary_cta_url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/dev/" $.BaseURL }}{{ end }}">{{ with (index $cta.FM "secondary_cta_label") }}{{ . }}{{ else }}Open Dev Hub{{ end }}</a>
     </div>
     {{- else }}
     <div class="home-cta-mark" aria-hidden="true">↗</div>
     <h2 class="home-cta-title">Tell the site what to publish next.</h2>
     <p class="home-cta-copy">Start with the onboarding page, then shape the information model and developer section without touching the engine core.</p>
     <div class="home-actions">
-      <a class="btn primary home-cta-primary" href="{{ printf "%sstart/" .BaseURL }}">Read Start</a>
-      <a class="btn home-cta-secondary" href="{{ printf "%sdev/" .BaseURL }}">Open Dev Hub</a>
+      <a class="btn primary home-cta-primary" href="{{ printf "%s/start/" .BaseURL }}">Read Start</a>
+      <a class="btn home-cta-secondary" href="{{ printf "%s/dev/" .BaseURL }}">Open Dev Hub</a>
     </div>
     {{- end }}
   </section>
