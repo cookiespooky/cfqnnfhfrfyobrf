@@ -1,37 +1,12 @@
 {{- $brandName := index .Settings "brand_name" -}}
 {{- $brandLogo := index .Settings "brand_logo" -}}
-{{- $homeLabel := index .Settings "ui_home" -}}
-{{- $pages := .Collections.nav_pages.Items -}}
 {{- $heroItems := .Collections.home_hero.Items -}}
-{{- $logoItems := .Collections.home_logos.Items -}}
 {{- $servicesIntroItems := .Collections.home_services_intro.Items -}}
 {{- $serviceItems := .Collections.home_services.Items -}}
 {{- $ctaItems := .Collections.home_cta.Items -}}
 
 <div class="home-shell">
   <section class="home-panel home-hero-panel">
-    <div class="home-panel-top">
-      <div class="home-panel-id">
-        <span class="home-mini-label">{{ $brandName }}</span>
-        <a class="home-mini-chip" href="{{ printf "%s/" .BaseURL }}">{{ $homeLabel }}</a>
-        <a class="home-mini-chip" href="{{ printf "%s/search/" .BaseURL }}">{{ index .Settings "ui_search" }}</a>
-      </div>
-      <div class="home-panel-links">
-        {{- if gt (len $pages) 0 }}
-        {{- $linkPage := index $pages 0 -}}
-        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
-        {{- end }}
-        {{- if gt (len $pages) 1 }}
-        {{- $linkPage := index $pages 1 -}}
-        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
-        {{- end }}
-        {{- if gt (len $pages) 2 }}
-        {{- $linkPage := index $pages 2 -}}
-        <a href="{{ printf "%s%s" .BaseURL $linkPage.Path }}">{{ $linkPage.Title }}</a>
-        {{- end }}
-      </div>
-    </div>
-
     <div class="home-hero">
       <div class="home-avatar">
         {{- if $brandLogo }}
@@ -69,19 +44,6 @@
     </div>
   </section>
 
-  <section class="home-panel home-marquee-panel" aria-label="Platform highlights">
-    <div class="home-marquee">
-      {{- range $logoItems }}
-      {{- $logo := . -}}
-      {{- with (index $logo.FM "url") }}
-      <a class="home-marquee-item" href="{{ . }}">{{ $logo.Title }}</a>
-      {{- else }}
-      <span class="home-marquee-item">{{ $logo.Title }}</span>
-      {{- end }}
-      {{- end }}
-    </div>
-  </section>
-
   <section class="home-panel home-services-panel">
     {{- if gt (len $servicesIntroItems) 0 }}
     {{- $servicesIntro := index $servicesIntroItems 0 -}}
@@ -98,7 +60,7 @@
       {{- range $serviceItems }}
       <a class="home-service-card" href="{{ with (index .FM "url") }}{{ printf "%s/%s" $.BaseURL . }}{{ else }}{{ printf "%s/" $.BaseURL }}{{ end }}">
         <span class="home-service-icon">{{ with (index .FM "label") }}{{ . }}{{ else }}+{{ end }}</span>
-        <h3>{{ .Title }}</h3>
+        <h3>{{ with (index .FM "card_title") }}{{ . }}{{ else }}{{ .Title }}{{ end }}</h3>
         {{- if .Description }}
         <p>{{ .Description }}</p>
         {{- end }}

@@ -4,6 +4,7 @@ slug: start
 title: Быстрый старт
 description: Пошаговый запуск от шаблона до первой публикации.
 order: 10
+hub: ["start-hub"]
 related: ["home", "publishing", "how-it-works", "seo", "example-post"]
 ---
 

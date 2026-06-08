@@ -4,6 +4,7 @@ slug: example-post
 title: Свойства страницы
 description: Какие поля frontmatter управляют страницей и как их заполнять.
 order: 60
+hub: ["fields-hub"]
 related: ["start", "publishing", "how-it-works", "seo", "home"]
 ---
 

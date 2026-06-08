@@ -4,6 +4,7 @@ slug: publishing
 title: Публикация
 description: Как обновляется сайт после Commit в Obsidian.
 order: 20
+hub: ["publishing-hub"]
 related: ["home", "start", "seo", "how-it-works", "example-post"]
 ---
 

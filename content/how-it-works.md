@@ -4,6 +4,7 @@ slug: how-it-works
 title: Как это работает
 description: "Простая схема: заметки и ссылки превращаются в сайт."
 order: 30
+hub: ["start-hub"]
 related: ["home", "start", "publishing", "seo", "example-post"]
 ---
 
